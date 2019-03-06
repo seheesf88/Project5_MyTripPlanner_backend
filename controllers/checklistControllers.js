@@ -1,13 +1,15 @@
 const express = require('express');
 const router  = express.Router();
-const Plan    = require('../models/plan');
+const Checklist    = require('../models/checklist');
+
+
 
 router.get('/', async(req, res) => {
   try{
-    const allplans = await Plan.find();
+    const allChecklists = await Checklist.find();
     res.json({
       status: 200,
-      data: allPlans
+      data: allChecklists
     })
   }catch(err){
     res.send(err)
@@ -16,22 +18,22 @@ router.get('/', async(req, res) => {
 
 router.get('/:id', async(req, res) => {
   try{
-    const foundPlan = await Plan.findById(req.params.id)
+    const foundChecklist = await Checklist.findById(req.params.id)
     res.json({
       status: 200,
-      data: foundPlan
+      data: foundChecklist
     })
   }catch(err){
     res.send(err)
   }
 })
 
-router.post('/', async(req, res) => {
+router.post('/', async(req, res)=>{
   try{
-    const createdPlan = await Plan.create(req.body)
+    const createdChecklist = await Checklist.create(req.body)
       res.json({
         status:200,
-        data: createdPlan
+        data: createdChecklist
       })
 
   }catch(err){
@@ -42,10 +44,10 @@ router.post('/', async(req, res) => {
 
 router.put('/:id', async(req, res) => {
   try{
-    const updatedPlan = await Plan.findByIdAndUpdate(req.params.id, req.body, {new:true});
+    const updatedChecklist = await Checklist.findByIdAndUpdate(req.params.id, req.body, {new:true});
     res.json({
       status: 200,
-      data: updatedPlan
+      data: updatedChecklist
     })
   }catch(err){
     res.send(err)
@@ -54,14 +56,15 @@ router.put('/:id', async(req, res) => {
 
 router.delete(':/id', async(req, res) => {
   try{
-    const deletedPlan = await Plan.findByIdAndRemove(req.params.id);
+    const deletedChecklist = await Checklist.findByIdAndRemove(req.params.id);
     res.json({
       status: 200,
-      data: deletedPlan
+      data: deletedChecklist
     })
   }catch(err){
     res.send(err)
   }
 })
+
 
 module.exports = router

@@ -27,10 +27,13 @@ app.use(cors(corsOptions));
 
 
 const planControllers = require('./controllers/planControllers');
+const checklistControllers = require('./controllers/checklistControllers');
 
 
 app.use('/api/v1/plans', planControllers);
+app.use('/api/v1/checklists', checklistControllers);
+
 
 app.listen(process.env.PORT || 9000, () => {
-  console.log('I am working')
+  console.log('I am working properly')
 })
