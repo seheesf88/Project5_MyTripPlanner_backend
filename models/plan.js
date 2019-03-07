@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
 const planSchema = new mongoose.Schema({
-  tripName: {type: String},//need to add unique
+  // username: {type: String},//need to add unique
+  // email: {type:String},
+  // password: {type: String},
   destination: {type: String},
   traveler: {type: String},
   tripPeriod: {type: String},

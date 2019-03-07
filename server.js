@@ -25,11 +25,12 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-
+const authControllers = require('./controllers/authControllers');
 const planControllers = require('./controllers/planControllers');
 const checklistControllers = require('./controllers/checklistControllers');
 
 
+app.use('/api/v1/auth', authControllers);
 app.use('/api/v1/plans', planControllers);
 app.use('/api/v1/checklists', checklistControllers);
 

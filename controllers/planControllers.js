@@ -26,18 +26,18 @@ router.get('/:id', async(req, res) => {
   }
 })
 
-router.post('/', async(req, res) => {
-  try{
-    const createdPlan = await Plan.create(req.body)
-      res.json({
-        status:200,
-        data: createdPlan
-      })
-
-  }catch(err){
-    res.send(err)
-  }
-});
+// router.post('/', async(req, res) => {
+//   try{
+//     const createdPlan = await Plan.create(req.body)
+//       res.json({
+//         status:200,
+//         data: createdPlan
+//       })
+//
+//   }catch(err){
+//     res.send(err)
+//   }
+// });
 
 
 router.put('/:id', async(req, res) => {

@@ -1,0 +1,159 @@
+const express = require('express');
+const router  = express.Router();
+const bcrypt  = require('bcryptjs');
+//const User    = require('../models/User');
+const User    = require('../models/user');
+
+
+//get all users(Users) from db
+router.get('/', async(req, res) => {
+  const foundUser = await User.findOne({username: req.session.username});
+  res.json({
+    user: foundUser,
+  })
+})
+
+// router.get('/',  async (req, res) => {
+// 	const foundUser = await User.findOne({username: req.session.username});
+// 	res.json({
+// 		user: foundUser
+// 	});
+// });
+
+// //get one user(User) from db
+// router.get('/:id', async(req, res) => {
+//   try{
+//     const foundUser = await User.findById(req.params.id)
+//     res.json({
+//       status: 200,
+//       data: foundUser
+//     })
+//   }catch(err){
+//     res.send(err)
+//   }
+// })
+
+//register//create
+router.post('/', async(req, res) => {
+  const password = req.body.password;
+  const hashedPassword = await bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+  const UserDbEntry = {};
+  UserDbEntry.username     = req.body.username;
+  UserDbEntry.email        = req.body.email;
+  UserDbEntry.password     = hashedPassword;
+  // UserDbEntry.destination  = req.body.destination;
+  // UserDbEntry.traveler     = req.body.traveler;
+  // UserDbEntry.tripPeriod   = req.body.tripPeriod;
+  // UserDbEntry.firstDay     = req.body.firstDay;
+  // UserDbEntry.lastDay      = req.body.lastDay;
+  // UserDbEntry.budget       = req.body.budget;
+
+
+  try{
+    const user = await User.create(UserDbEntry);
+    console.log("NEW User = ", User)
+
+    req.session.logged = true; //once login is true,
+    req.session.username = req.body.username;
+    req.session.userId = user._id;//
+
+    res.json({
+      status: 200,
+      data: 'register successful',
+      userId: user._id
+    });
+
+  }catch(err){
+    res.send(err)
+  }
+});
+
+//login
+router.post('/login', async(req, res) => {
+  try{
+    const foundUser = await User.findOne({username: req.body.username})
+    if(foundUser){
+      console.log("Passwords = ", req.body.password, foundUser.password)
+      const passwordMatches = bcrypt.compareSync(req.body.password, foundUser.password);
+      console.log("PASSWORD MATCH = ", passwordMatches)
+      if(bcrypt.compareSync(req.body.password, foundUser.password)){
+        console.log('JUST BEFORE LOGIN RESPONSE')
+        req.session.message = '';
+        req.session.username = foundUser.username;
+        req.session.logged = true;
+        req.session.userId = foundUser._id
+        res.json({
+          status: 200,
+          data: 'login successful',
+          userId: foundUser._id
+        });
+      }else{
+        req.session.message = 'trip name or password is not correct'
+        res.status(401).json({
+          status: 401,
+          data: 'login unsuccessful'
+        });
+      }
+    }else{
+      req.session.message = 'trip name or password is incorrect';
+      res.json({
+        status: 401,
+        data: 'login unsuccessful',
+      });
+    }
+  }catch(err){
+    res.send(err)
+  }
+})
+
+
+//logout
+router.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if(err){
+      res.send(err);
+    }else{
+      res.json({
+        status: 200,
+        data: 'logout successful'
+      });
+    }
+  })
+})
+
+//edit User profile
+
+router.put('/:id', async(req, res) => {
+  try{
+    console.log('here', req.body)
+    let modifyProfile = {};
+    modifyProfile = req.body;
+    const password = req.body.password;
+    const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+    modifyProfile.password = hashedPassword;
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, modifyProfile, {new:true})
+    res.json({
+      status: 200,
+      data: 'User is updated',
+      updatedUser: updatedUser
+    })
+  }catch(err){
+    res.json(err)
+  }
+})
+
+// //delete User Profile
+// router.delete('/:id', async(req, res) => {
+//   try{
+//     const deletedUser = await Report.findByIdAndRemove(req.params.id);
+//     res.json({
+//       status: 200,
+//       data: deletedReport
+//     })
+//   }catch(err){
+//     res.send(err)
+//   }
+// })
+
+
+module.exports = router
