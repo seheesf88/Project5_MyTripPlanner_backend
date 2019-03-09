@@ -9,9 +9,11 @@ router.get('/', async(req, res) => {
     })
 });
 
-router.get('/:id', async(req, res) => {
+router.get('/show/:id', async(req, res) => {
   try{
+    console.log("req.params.id ===>", req.params.id)
     const foundPlan = await Plan.findById(req.params.id)
+    console.log("this is foundPlan", foundPlan)
     res.json({
       status: 200,
       data: foundPlan
@@ -37,7 +39,7 @@ router.post('/', async(req, res) => {
 });
 
 
-router.put('/:id', async(req, res) => {
+router.put('/edit/:id', async(req, res) => {
   try{
     const updatedPlan = await Plan.findByIdAndUpdate(req.params.id, req.body, {new:true});
     res.json({
