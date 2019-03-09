@@ -3,15 +3,10 @@ const router  = express.Router();
 const Plan    = require('../models/plan');
 
 router.get('/', async(req, res) => {
-  try{
-    const allplans = await Plan.find();
+    const allplans = await Plan.find({});
     res.json({
-      status: 200,
-      data: allPlans
+      plan: allplans
     })
-  }catch(err){
-    res.send(err)
-  }
 });
 
 router.get('/:id', async(req, res) => {
@@ -26,18 +21,20 @@ router.get('/:id', async(req, res) => {
   }
 })
 
-// router.post('/', async(req, res) => {
-//   try{
-//     const createdPlan = await Plan.create(req.body)
-//       res.json({
-//         status:200,
-//         data: createdPlan
-//       })
-//
-//   }catch(err){
-//     res.send(err)
-//   }
-// });
+router.post('/', async(req, res) => {
+  console.log('req.body ====>', req.body)
+  try{
+    const createdPlan = await Plan.create(req.body)
+    console.log('createdPlan ====>',createdPlan)
+      res.json({
+        status:200,
+        data: createdPlan
+      })
+
+  }catch(err){
+    res.send(err)
+  }
+});
 
 
 router.put('/:id', async(req, res) => {
@@ -52,7 +49,7 @@ router.put('/:id', async(req, res) => {
   }
 });
 
-router.delete(':/id', async(req, res) => {
+router.delete('/delete/:id', async(req, res) => {
   try{
     const deletedPlan = await Plan.findByIdAndRemove(req.params.id);
     res.json({
