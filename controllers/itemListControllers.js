@@ -1,39 +1,41 @@
 const express = require('express');
 const router  = express.Router();
-const Checklist    = require('../models/checklist');
+const ItemList    = require('../models/itemlist');
 
 
-
+//get all items as list
 router.get('/', async(req, res) => {
   try{
-    const allChecklists = await Checklist.find();
+    const allItemLists = await ItemList.find({});
     res.json({
       status: 200,
-      data: allChecklists
+      data: allItemLists
     })
   }catch(err){
     res.send(err)
   }
 });
 
+//get single item detail
 router.get('/:id', async(req, res) => {
   try{
-    const foundChecklist = await Checklist.findById(req.params.id)
+    const foundItemList = await ItemList.findById(req.params.id)
     res.json({
       status: 200,
-      data: foundChecklist
+      data: foundItemList
     })
   }catch(err){
     res.send(err)
   }
 })
 
+// create item
 router.post('/', async(req, res)=>{
   try{
-    const createdChecklist = await Checklist.create(req.body)
+    const createItemList = await ItemList.create(req.body)
       res.json({
         status:200,
-        data: createdChecklist
+        data: createItemList
       })
 
   }catch(err){
@@ -41,25 +43,25 @@ router.post('/', async(req, res)=>{
   }
 });
 
-
+//update item
 router.put('/:id', async(req, res) => {
   try{
-    const updatedChecklist = await Checklist.findByIdAndUpdate(req.params.id, req.body, {new:true});
+    const updatedItemList = await ItemList.findByIdAndUpdate(req.params.id, req.body, {new:true});
     res.json({
       status: 200,
-      data: updatedChecklist
+      data: updatedItemList
     })
   }catch(err){
     res.send(err)
   }
 });
 
-router.delete(':/id', async(req, res) => {
+router.delete('/:id', async(req, res) => {
   try{
-    const deletedChecklist = await Checklist.findByIdAndRemove(req.params.id);
+    const deleteItemList = await ItemList.findByIdAndRemove(req.params.id);
     res.json({
       status: 200,
-      data: deletedChecklist
+      data: deleteItemList
     })
   }catch(err){
     res.send(err)

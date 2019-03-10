@@ -9,6 +9,7 @@ router.get('/', async(req, res) => {
     })
 });
 
+
 router.get('/show/:id', async(req, res) => {
   try{
     console.log("req.params.id ===>", req.params.id)

@@ -28,13 +28,13 @@ app.use(cors(corsOptions));
 const authControllers = require('./controllers/authControllers');
 const userControllers = require('./controllers/userControllers');
 const planControllers = require('./controllers/planControllers');
-const checklistControllers = require('./controllers/checklistControllers');
+const itemListControllers = require('./controllers/itemListControllers');
 
 
 app.use('/api/v1/auth', authControllers);
 app.use('/api/v1/users', userControllers);
 app.use('/api/v1/plans', planControllers);
-app.use('/api/v1/checklists', checklistControllers);
+app.use('/api/v1/itemlists', itemListControllers);
 
 
 app.listen(process.env.PORT || 9000, () => {

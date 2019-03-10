@@ -7,7 +7,9 @@ const planSchema = new mongoose.Schema({
   tripPeriod: {type: String},
   firstDay: {type: String},
   lastDay: {type: String},
-  budget:{type: Number}
+  budget:{type: Number},
+  userId: {type: String},
+  username: {type: String}
 });
 
 
