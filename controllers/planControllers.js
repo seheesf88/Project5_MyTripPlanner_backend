@@ -1,6 +1,8 @@
 const express = require('express');
 const router  = express.Router();
+
 const Plan    = require('../models/plan');
+const User    = require('../models/user');
 
 router.get('/', async(req, res) => {
     const allplans = await Plan.find({});
@@ -31,7 +33,8 @@ router.post('/', async(req, res) => {
     console.log('createdPlan ====>',createdPlan)
       res.json({
         status:200,
-        data: createdPlan
+        data: createdPlan,
+        // planId: plan._id
       })
 
   }catch(err){

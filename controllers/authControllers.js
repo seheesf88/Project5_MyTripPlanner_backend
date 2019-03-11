@@ -66,11 +66,11 @@ router.post('/login', async(req, res) => {
   try{
     const foundUser = await User.findOne({username: req.body.username})
     if(foundUser){
-      console.log("Passwords = ", req.body.password, foundUser.password)
+      // console.log("Passwords = ", req.body.password, foundUser.password)
       const passwordMatches = bcrypt.compareSync(req.body.password, foundUser.password);
-      console.log("PASSWORD MATCH = ", passwordMatches)
+      // console.log("PASSWORD MATCH = ", passwordMatches)
       if(bcrypt.compareSync(req.body.password, foundUser.password)){
-        console.log('JUST BEFORE LOGIN RESPONSE')
+        // console.log('JUST BEFORE LOGIN RESPONSE')
         req.session.message = '';
         req.session.username = foundUser.username;
         req.session.logged = true;
