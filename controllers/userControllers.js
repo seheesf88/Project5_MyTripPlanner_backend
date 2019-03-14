@@ -5,6 +5,7 @@ const User    = require('../models/user');
 const Plan    = require('../models/plan');
 const ItemList    = require('../models/itemlist');
 
+
 //all users
 router.get('/', async(req, res) => {
   const allUsers = await User.find({});
@@ -63,15 +64,15 @@ router.get('/myplans/:id', async(req, res) => {
 })
 
 router.post('/myplans', async(req, res) => {
-  console.log("userId ------>", req.session);
+  // console.log("userId ------>", req.session);
     try {
-      console.log("rep.body ------->", req.body);
+      // console.log("rep.body ------->", req.body);
       const createdPlan = await Plan.create(req.body);
-      console.log("createdPlan ------->", createdPlan);
+      // console.log("createdPlan ------->", createdPlan);
       createdPlan.userId = req.session.userId;
       createdPlan.username = req.session.username;
 
-      console.log("sessiongUsername===============>", createdPlan.username);
+      // console.log("sessiongUsername===============>", createdPlan.username);
       createdPlan.save((err, savedPlan) => {
         res.json({
           myplans: savedPlan
@@ -83,23 +84,13 @@ router.post('/myplans', async(req, res) => {
     }
 })
 
-router.post('/myplans/:id', async(req, res) => {
-    try {
-      const createdItem = await ItemList.create(req.body);
-      // console.log("createdItem ------->", createdItem);
-      // console.log("current plan_id  ------->", req.params.id);
-      createdItem.planId = req.params.id
-      // console.log("save planId in item data------------->", createdItem.planId);
 
-      createdItem.save((err, savedItemlist) => {
-        res.json({
-          myItemList : savedItemlist
-        })
-      })
-    }catch(err){
-      console.log("myplans posting is fail");
-      res.send(err)
-    }
-})
+// router.post('/itemlist', async(req, res) => {
+//   try{
+//
+//   }catch(err){
+//     console.log("your itemlist got problems")
+//   }
+// })
 
 module.exports = router

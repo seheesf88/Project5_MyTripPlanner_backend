@@ -9,7 +9,7 @@ const planSchema = new mongoose.Schema({
   lastDay: {type: String},
   budget:{type: Number},
   userId: {type: String},
-  username: {type: String}
+  // username: {type: String}
 });
 
 

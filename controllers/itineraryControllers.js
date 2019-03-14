@@ -1,6 +1,7 @@
 const express = require('express');
 const router  = express.Router();
 const Itinerary    = require('../models/itinerary');
+const Plan    = require('../models/plan');
 
 
 //get all items as list
@@ -29,19 +30,28 @@ router.get('/:id', async(req, res) => {
   }
 })
 
-// create item
-router.post('/', async(req, res)=>{
+// create itenary
+router.post('/:id', async(req, res)=>{
+  console.log(req.body)
   try{
     const createItinerary = await Itinerary.create(req.body)
-      res.json({
-        status:200,
-        data: createItinerary
-      })
+    const plan = await Plan.findById(req.params.id);
+    // console.log("plan ==============>", plan._id);
+    createItinerary.planId = plan._id;
+    createItinerary.userId = plan.userId
 
+    // console.log("add?", createItinerary);
+    createItinerary.save((err, savedItinerary) => {
+      res.json({
+        data: savedItinerary
+      })
+    })
   }catch(err){
     res.send(err)
   }
 });
+
+
 
 //update item
 router.put('/:id', async(req, res) => {

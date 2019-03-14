@@ -53,7 +53,8 @@ router.post('/', async(req, res) => {
     res.json({
       status: 200,
       data: 'register successful',
-      userId: user._id
+      userId: user._id,
+      // username: req.body.username
     });
 
   }catch(err){
