@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const connectionString = 'mongodb://localhost/plan'
 
-mongoose.connect(connectionString, {
+mongoose.connect(process.env.MONGODB_URI || connectionString, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false
@@ -18,3 +18,7 @@ mongoose.connection.on('error', (err) =>{
 mongoose.connection.on('disconnected', () =>{
   console.log(`mongoose disconnected from ${connectionString}`)
 })
+
+
+//HEROKU
+// add " process.env.MONGODB_URI || "

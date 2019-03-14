@@ -18,11 +18,13 @@ app.use(bodyParser.json());
 
 
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000', 'https://localhost:3000'],
   credentials: true,
   optionsSuccessStatus:200
 }
 
+//HEROKU
+// origin: 'http://localhost:3000',  ===> origin: ['http://localhost:3000'],
 app.use(cors(corsOptions));
 
 const authControllers = require('./controllers/authControllers');
