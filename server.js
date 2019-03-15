@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 
 
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://localhost:3000',  'https://react-tripplanner.herokuapp.com/'],
+  origin: ['http://localhost:3000', 'https://localhost:3000', 'https://my-tripplanner.herokuapp.com'],
   credentials: true,
   optionsSuccessStatus:200
 }
